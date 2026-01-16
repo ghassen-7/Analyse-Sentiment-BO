@@ -143,30 +143,30 @@
 
     <!-- Slide 2: Contexte et Objectifs -->
     <div class="slide">
-        <h2 class="text-4xl font-bold mb-10 border-l-4 border-blue-500 pl-4">Contexte & Problématique</h2>
+        <h2 class="text-4xl font-bold mb-10 border-l-4 border-blue-500 pl-4">Contexte & Enjeux</h2>
         <div class="grid grid-cols-2 gap-8 items-center flex-1">
             <div class="space-y-6">
                 <div class="card border-l-4 border-yellow-500">
-                    <h3 class="text-xl font-bold mb-2 text-yellow-500">Le Défi</h3>
-                    <p class="text-slate-300">Traiter des milliers de commentaires non structurés pour extraire une tendance globale d'opinion (Positif vs Négatif).</p>
+                    <h3 class="text-xl font-bold mb-2 text-yellow-500">Le Défi du Langage Web</h3>
+                    <p class="text-slate-300">Les commentaires YouTube présentent des défis NLP spécifiques : argot, abréviations, emojis, fautes d'orthographe et structures grammaticales non conventionnelles ("C tro b1" vs "C'est très bien").</p>
                 </div>
                 <div class="card border-l-4 border-blue-500">
-                    <h3 class="text-xl font-bold mb-2 text-blue-500">La Solution</h3>
-                    <p class="text-slate-300">Développer un système de classification automatique robuste capable de généraliser sur le langage web français (argot, fautes, emojis).</p>
+                    <h3 class="text-xl font-bold mb-2 text-blue-500">L'Approche Hybride</h3>
+                    <p class="text-slate-300">Combinaison de <b>Transfer Learning</b> (RoBERTa pour la labellisation de haute qualité) et de <b>Machine Learning Supervisé</b> (Léger et rapide pour la production).</p>
                 </div>
             </div>
             <div class="grid grid-cols-1 gap-4">
-                <div class="flex items-start gap-4 p-4">
+                <div class="flex items-start gap-4 p-4 card hover:bg-slate-800 transition-colors">
                     <div class="bg-green-500/20 p-3 rounded-lg"><i class="fa-solid fa-database text-green-500"></i></div>
-                    <div><h4 class="font-bold">Collecte & Labellisation</h4><p class="text-sm text-slate-400">Création d'un dataset de référence.</p></div>
+                    <div><h4 class="font-bold">1. Data Engineering</h4><p class="text-sm text-slate-400">Construction d'un Ground Truth fiable via IA SOTA.</p></div>
                 </div>
-                <div class="flex items-start gap-4 p-4">
+                <div class="flex items-start gap-4 p-4 card hover:bg-slate-800 transition-colors">
                     <div class="bg-purple-500/20 p-3 rounded-lg"><i class="fa-solid fa-microchip text-purple-500"></i></div>
-                    <div><h4 class="font-bold">Benchmark Modèles</h4><p class="text-sm text-slate-400">Comparaison d'architectures ML.</p></div>
+                    <div><h4 class="font-bold">2. Modélisation</h4><p class="text-sm text-slate-400">Entraînement et benchmark rigoureux.</p></div>
                 </div>
-                <div class="flex items-start gap-4 p-4">
-                    <div class="bg-orange-500/20 p-3 rounded-lg"><i class="fa-solid fa-display text-orange-500"></i></div>
-                    <div><h4 class="font-bold">Déploiement</h4><p class="text-sm text-slate-400">Interface interactive Streamlit.</p></div>
+                <div class="flex items-start gap-4 p-4 card hover:bg-slate-800 transition-colors">
+                    <div class="bg-orange-500/20 p-3 rounded-lg"><i class="fa-solid fa-rocket text-orange-500"></i></div>
+                    <div><h4 class="font-bold">3. Industrialisation</h4><p class="text-sm text-slate-400">Interface utilisateur pour exploitation réelle.</p></div>
                 </div>
             </div>
         </div>
@@ -214,46 +214,78 @@
     <!-- Slide 4: Équilibrage -->
     <div class="slide">
         <h2 class="text-4xl font-bold mb-8 border-l-4 border-indigo-500 pl-4">Stratégie d'Équilibrage</h2>
-        <div class="grid grid-cols-2 gap-12 items-center flex-1">
-            <div class="space-y-6">
-                <p class="text-lg text-slate-300">Un dataset déséquilibré entraîne un biais vers la classe majoritaire. Nous avons optimisé la structure :</p>
-                <div class="bg-slate-800 p-4 rounded-lg border border-slate-700">
-                    <h4 class="font-bold text-indigo-400 mb-2">Processus de Transformation</h4>
-                    <div class="flex justify-between text-sm">
-                        <span>Original (Pos/Neg/Neutre)</span>
-                        <span class="text-slate-500">→</span>
-                        <span>Cible (50/50 Binaire)</span>
+        <div class="grid grid-cols-2 gap-12 h-full flex-1">
+            
+            <!-- Colonne explicative -->
+            <div class="flex flex-col justify-center space-y-6">
+                <!-- Why Balance? -->
+                <div class="bg-indigo-900/30 p-6 rounded-xl border border-indigo-500/30">
+                    <h3 class="text-xl font-bold text-indigo-400 mb-4 flex items-center gap-3">
+                        <i class="fa-solid fa-scale-balanced"></i> Pourquoi équilibrer ?
+                    </h3>
+                    <p class="text-slate-300 leading-relaxed text-sm">
+                        Un dataset déséquilibré biaise fortement le modèle vers la classe majoritaire. 
+                        Sans correction, l'algorithme maximiserait son accuracy en prédisant toujours <span class="text-green-400 font-bold">"Positif"</span>, ignorant les signaux négatifs critiques pour notre analyse.
+                    </p>
+                </div>
+
+                <!-- Methods Used -->
+                <div class="space-y-4">
+                    <h4 class="font-bold text-slate-400 uppercase text-xs tracking-widest pl-2">Techniques Appliquées</h4>
+                    
+                    <div class="flex items-start gap-4 bg-slate-800/50 p-4 rounded-lg border-l-4 border-green-500 hover:bg-slate-800 transition-colors">
+                        <div class="bg-green-500/20 w-10 h-10 rounded-full flex items-center justify-center shrink-0 mt-1">
+                            <i class="fa-solid fa-scissors text-green-500"></i>
+                        </div>
+                        <div>
+                            <h4 class="font-bold text-sm text-green-400">Random Undersampling</h4>
+                            <p class="text-xs text-slate-400 mt-1">Réduction aléatoire contrôlée de la classe majoritaire (positifs) pour s'aligner sur le seuil cible.</p>
+                        </div>
+                    </div>
+
+                    <div class="flex items-start gap-4 bg-slate-800/50 p-4 rounded-lg border-l-4 border-blue-500 hover:bg-slate-800 transition-colors">
+                        <div class="bg-blue-500/20 w-10 h-10 rounded-full flex items-center justify-center shrink-0 mt-1">
+                            <i class="fa-solid fa-recycle text-blue-500"></i>
+                        </div>
+                        <div>
+                            <h4 class="font-bold text-sm text-blue-400">Récupération des Neutres</h4>
+                            <p class="text-xs text-slate-400 mt-1">Conversion d'avis notés 3/5 contenant des mots clés négatifs forts pour enrichir la classe minoritaire.</p>
+                        </div>
                     </div>
                 </div>
-                <ul class="space-y-4">
-                    <li class="flex items-center gap-3">
-                        <i class="fa-solid fa-check-circle text-green-500"></i>
-                        <span>Conversion stratégique des neutres pour renforcer la minorité.</span>
-                    </li>
-                    <li class="flex items-center gap-3">
-                        <i class="fa-solid fa-check-circle text-green-500"></i>
-                        <span>Dataset final : <b>1 938</b> entrées.</span>
-                    </li>
-                    <li class="flex items-center gap-3">
-                        <i class="fa-solid fa-check-circle text-green-500"></i>
-                        <span>Distribution parfaite : <b>50% / 50%</b>.</span>
-                    </li>
-                </ul>
             </div>
-            <div class="flex flex-col gap-4">
-                <div class="card p-6 bg-indigo-500/5">
-                    <h3 class="text-center mb-10 font-bold uppercase text-slate-400">Répartition Finale</h3>
-                    <div class="flex h-48 items-end gap-12 justify-center border-b border-slate-600 pb-0">
-                        <div class="w-24 bg-green-500 rounded-t-lg relative group h-full hover:bg-green-400 transition-all cursor-pointer shadow-[0_0_15px_rgba(34,197,94,0.5)]">
-                            <div class="absolute -top-8 left-1/2 -translate-x-1/2 font-bold text-xl">969</div>
-                            <div class="absolute bottom-2 left-1/2 -translate-x-1/2 text-xs font-bold text-black bg-white/50 px-2 rounded">50%</div>
-                            <div class="absolute -bottom-8 left-1/2 -translate-x-1/2 font-bold text-green-500">POSITIF</div>
+
+            <!-- Colonne Visualisation -->
+            <div class="flex flex-col justify-center">
+                <div class="card p-8 bg-gradient-to-br from-indigo-500/10 to-transparent backdrop-blur-sm border border-indigo-500/20 shadow-2xl relative overflow-hidden">
+                    <!-- Background decoration -->
+                    <div class="absolute -right-20 -top-20 w-64 h-64 bg-indigo-500/10 rounded-full blur-3xl"></div>
+                    
+                    <h3 class="text-center mb-10 font-bold uppercase text-slate-400 tracking-widest text-sm z-10 relative">Distribution Finale du Dataset</h3>
+                    
+                    <div class="flex h-64 items-end gap-16 justify-center border-b border-slate-600 pb-0 relative z-10">
+                        <!-- Axe Y simulé -->
+                        <div class="absolute left-4 top-0 bottom-0 w-px border-l border-dashed border-slate-700"></div>
+                        <div class="absolute left-0 top-0 text-[10px] text-slate-500">1000</div>
+                        <div class="absolute left-2 top-1/2 text-[10px] text-slate-500">500</div>
+                        
+                        <!-- Barre Positif -->
+                        <div class="w-32 bg-gradient-to-t from-green-900 to-green-500 rounded-t-lg relative group h-full shadow-[0_0_30px_rgba(34,197,94,0.2)] transition-all hover:scale-105 hover:shadow-[0_0_40px_rgba(34,197,94,0.4)]">
+                            <div class="absolute top-1/3 left-1/2 -translate-x-1/2 text-white font-bold bg-black/60 px-3 py-1 rounded backdrop-blur border border-white/10">50%</div>
+                            <div class="absolute -top-12 left-1/2 -translate-x-1/2 font-bold text-3xl text-white">969</div>
+                            <div class="absolute -bottom-12 left-1/2 -translate-x-1/2 font-bold text-green-400 tracking-wider">POSITIF</div>
                         </div>
-                        <div class="w-24 bg-red-500 rounded-t-lg relative group h-full hover:bg-red-400 transition-all cursor-pointer shadow-[0_0_15px_rgba(239,68,68,0.5)]">
-                            <div class="absolute -top-8 left-1/2 -translate-x-1/2 font-bold text-xl">969</div>
-                            <div class="absolute bottom-2 left-1/2 -translate-x-1/2 text-xs font-bold text-black bg-white/50 px-2 rounded">50%</div>
-                            <div class="absolute -bottom-8 left-1/2 -translate-x-1/2 font-bold text-red-500">NÉGATIF</div>
+
+                        <!-- Barre Négatif -->
+                        <div class="w-32 bg-gradient-to-t from-red-900 to-red-500 rounded-t-lg relative group h-full shadow-[0_0_30px_rgba(239,68,68,0.2)] transition-all hover:scale-105 hover:shadow-[0_0_40px_rgba(239,68,68,0.4)]">
+                            <div class="absolute top-1/3 left-1/2 -translate-x-1/2 text-white font-bold bg-black/60 px-3 py-1 rounded backdrop-blur border border-white/10">50%</div>
+                            <div class="absolute -top-12 left-1/2 -translate-x-1/2 font-bold text-3xl text-white">969</div>
+                            <div class="absolute -bottom-12 left-1/2 -translate-x-1/2 font-bold text-red-400 tracking-wider">NÉGATIF</div>
                         </div>
+                    </div>
+                    
+                    <div class="mt-16 text-center z-10 relative">
+                        <span class="inline-block px-6 py-2 bg-indigo-600/80 text-white text-sm font-bold rounded-full shadow-lg border border-indigo-400">TOTAL : 1 938 ÉCHANTILLONS</span>
                     </div>
                 </div>
             </div>
@@ -263,48 +295,74 @@
     <!-- Slide 5: TF-IDF & Vectorisation -->
     <div class="slide">
         <h2 class="text-4xl font-bold mb-8 border-l-4 border-orange-500 pl-4">Vectorisation TF-IDF</h2>
-        <div class="grid grid-cols-2 gap-8">
-            <div class="card space-y-4">
-                <h3 class="text-xl font-bold text-orange-400 underline decoration-2 underline-offset-4">Configuration NLP</h3>
-                <div class="space-y-3">
-                    <div class="flex justify-between border-b border-slate-700 pb-2">
-                        <span>N-grammes</span>
-                        <span class="font-mono text-blue-400">(1, 2)</span>
+        <div class="grid grid-cols-2 gap-8 h-full flex-1">
+            <div class="card space-y-6 flex flex-col justify-center">
+                <h3 class="text-xl font-bold text-orange-400 underline decoration-2 underline-offset-4 mb-2">Configuration NLP Optimisée</h3>
+                <p class="text-sm text-slate-400 mb-4">Transformation du texte en vecteurs numériques pondérés par leur importance relative.</p>
+                
+                <div class="space-y-4">
+                    <div class="group">
+                        <div class="flex justify-between items-center border-b border-slate-700 pb-1">
+                            <span class="font-bold text-slate-200">N-grammes (1, 2)</span>
+                            <span class="font-mono text-blue-400 bg-blue-900/30 px-2 rounded">Unigram + Bigram</span>
+                        </div>
+                        <p class="text-xs text-slate-500 mt-1 pl-2 border-l-2 border-slate-700 group-hover:border-orange-500 group-hover:text-slate-400 transition-colors">Capture le contexte local (ex: "pas bon" vs "bon") pour distinguer la négation.</p>
                     </div>
-                    <div class="flex justify-between border-b border-slate-700 pb-2">
-                        <span>Min DF</span>
-                        <span class="font-mono text-blue-400">2</span>
+
+                    <div class="group">
+                        <div class="flex justify-between items-center border-b border-slate-700 pb-1">
+                            <span class="font-bold text-slate-200">Min DF (2)</span>
+                            <span class="font-mono text-blue-400 bg-blue-900/30 px-2 rounded">Filtrage Bruit</span>
+                        </div>
+                        <p class="text-xs text-slate-500 mt-1 pl-2 border-l-2 border-slate-700 group-hover:border-orange-500 group-hover:text-slate-400 transition-colors">Ignore les fautes de frappe et termes ultra-rares n'apparaissant qu'une fois.</p>
                     </div>
-                    <div class="flex justify-between border-b border-slate-700 pb-2">
-                        <span>Max DF</span>
-                        <span class="font-mono text-blue-400">0.9</span>
-                    </div>
-                    <div class="flex justify-between border-b border-slate-700 pb-2">
-                        <span>Stopwords</span>
-                        <span class="font-mono text-blue-400 text-sm">Français Personnalisés</span>
+
+                    <div class="group">
+                        <div class="flex justify-between items-center border-b border-slate-700 pb-1">
+                            <span class="font-bold text-slate-200">Max DF (0.9)</span>
+                            <span class="font-mono text-blue-400 bg-blue-900/30 px-2 rounded">Exclusion Stopwords</span>
+                        </div>
+                        <p class="text-xs text-slate-500 mt-1 pl-2 border-l-2 border-slate-700 group-hover:border-orange-500 group-hover:text-slate-400 transition-colors">Élimine les mots omniprésents (le, la, de) qui n'apportent aucune information.</p>
                     </div>
                 </div>
-                <div class="mt-4 p-4 bg-orange-500/10 rounded-lg text-center">
-                    <span class="text-2xl font-bold text-orange-400">5 009</span>
-                    <p class="text-xs text-slate-400 uppercase mt-1">Termes Uniques (Vocabulaire)</p>
+
+                <div class="mt-4 p-4 bg-gradient-to-r from-orange-500/10 to-transparent rounded-lg border border-orange-500/20 flex items-center justify-between">
+                    <div>
+                        <span class="text-3xl font-bold text-orange-400">5 009</span>
+                        <div class="text-xs text-slate-400 uppercase font-bold tracking-wider">Features Retenues</div>
+                    </div>
+                    <i class="fa-solid fa-file-code text-3xl text-orange-500/50"></i>
                 </div>
             </div>
-            <div class="card space-y-4">
-                <h3 class="text-xl font-bold text-blue-400 underline decoration-2 underline-offset-4">Split des Données</h3>
-                <div class="relative h-48 flex items-center justify-center">
-                    <div class="w-full h-12 bg-slate-700 rounded-full overflow-hidden flex">
-                        <div class="w-4/5 h-full bg-blue-500 flex items-center justify-center text-xs font-bold">TRAIN (80%)</div>
-                        <div class="w-1/5 h-full bg-purple-500 flex items-center justify-center text-xs font-bold">TEST (20%)</div>
+
+            <div class="card space-y-6 flex flex-col justify-center">
+                <h3 class="text-xl font-bold text-blue-400 underline decoration-2 underline-offset-4 mb-2">Protocole d'Évaluation</h3>
+                
+                <div class="relative h-32 flex flex-col justify-center">
+                    <div class="w-full h-16 bg-slate-800 rounded-lg overflow-hidden flex shadow-lg border border-slate-600">
+                        <div class="w-4/5 h-full bg-blue-600 flex flex-col items-center justify-center hover:bg-blue-500 transition-colors cursor-help group relative">
+                            <span class="text-sm font-bold text-white">TRAIN SET (80%)</span>
+                            <span class="text-xs text-blue-200">Apprentissage</span>
+                            <!-- Tooltip -->
+                            <div class="absolute bottom-full mb-2 bg-black text-white text-xs p-2 rounded opacity-0 group-hover:opacity-100 transition-opacity whitespace-nowrap">Base pour ajuster les poids du modèle</div>
+                        </div>
+                        <div class="w-1/5 h-full bg-purple-600 flex flex-col items-center justify-center hover:bg-purple-500 transition-colors cursor-help group relative">
+                            <span class="text-sm font-bold text-white">TEST (20%)</span>
+                            <span class="text-xs text-purple-200">Validation</span>
+                             <!-- Tooltip -->
+                             <div class="absolute bottom-full mb-2 bg-black text-white text-xs p-2 rounded opacity-0 group-hover:opacity-100 transition-opacity whitespace-nowrap">Données jamais vues pour le score final</div>
+                        </div>
                     </div>
                 </div>
-                <div class="grid grid-cols-2 gap-4 text-center">
-                    <div>
-                        <p class="text-2xl font-bold">1 550</p>
-                        <p class="text-xs text-slate-500">Exemples d'entraînement</p>
+
+                <div class="grid grid-cols-2 gap-6">
+                    <div class="bg-slate-800/50 p-4 rounded-lg text-center border-t-2 border-blue-500">
+                        <p class="text-3xl font-bold text-white">1 550</p>
+                        <p class="text-xs text-slate-400 uppercase font-bold mt-1">Exemples Train</p>
                     </div>
-                    <div>
-                        <p class="text-2xl font-bold">388</p>
-                        <p class="text-xs text-slate-500">Exemples de test</p>
+                    <div class="bg-slate-800/50 p-4 rounded-lg text-center border-t-2 border-purple-500">
+                        <p class="text-3xl font-bold text-white">388</p>
+                        <p class="text-xs text-slate-400 uppercase font-bold mt-1">Exemples Test</p>
                     </div>
                 </div>
             </div>
@@ -402,52 +460,77 @@
     <!-- Slide 7: Résultats Quantitatifs -->
     <div class="slide">
         <h2 class="text-4xl font-bold mb-6 border-l-4 border-cyan-500 pl-4">Performances Comparées</h2>
-        <div class="overflow-x-auto">
-            <table>
+        <div class="overflow-x-auto mb-6">
+            <table class="w-full text-left border-collapse">
                 <thead>
-                    <tr>
-                        <th>Modèle</th>
-                        <th>Accuracy</th>
-                        <th>Précision</th>
-                        <th>Recall</th>
-                        <th>F1-Score</th>
+                    <tr class="border-b border-slate-600 text-slate-400 uppercase text-sm">
+                        <th class="p-3">Modèle</th>
+                        <th class="p-3">Accuracy</th>
+                        <th class="p-3">Précision</th>
+                        <th class="p-3">Recall</th>
+                        <th class="p-3">F1-Score</th>
                     </tr>
                 </thead>
-                <tbody>
-                    <tr class="ring-1 ring-cyan-500 bg-cyan-500/5">
-                        <td class="font-bold">LinearSVC</td>
-                        <td class="text-cyan-400 font-bold">83.51%</td>
-                        <td>84.57%</td>
-                        <td>81.96%</td>
-                        <td>0.8325</td>
+                <tbody class="text-sm">
+                    <tr class="bg-cyan-500/10 border-l-4 border-cyan-500">
+                        <td class="p-3 font-bold text-white"><i class="fa-solid fa-trophy text-yellow-500 mr-2"></i>LinearSVC</td>
+                        <td class="p-3 text-cyan-400 font-bold text-lg">83.51%</td>
+                        <td class="p-3">84.57%</td>
+                        <td class="p-3">81.96%</td>
+                        <td class="p-3 font-mono text-cyan-300">0.8325</td>
                     </tr>
-                    <tr>
-                        <td class="font-bold">Logistic Regression</td>
-                        <td class="text-blue-400 font-bold">83.25%</td>
-                        <td>84.86%</td>
-                        <td>80.93%</td>
-                        <td>0.8285</td>
+                    <tr class="border-b border-slate-800 hover:bg-slate-800/50">
+                        <td class="p-3 font-bold text-slate-300">Logistic Regression</td>
+                        <td class="p-3 text-blue-400 font-bold">83.25%</td>
+                        <td class="p-3">84.86%</td>
+                        <td class="p-3">80.93%</td>
+                        <td class="p-3 font-mono text-slate-400">0.8285</td>
                     </tr>
-                    <tr>
-                        <td class="font-bold">Random Forest</td>
-                        <td>80.15%</td>
-                        <td>77.46%</td>
-                        <td>85.05%</td>
-                        <td>0.8108</td>
+                    <tr class="border-b border-slate-800 hover:bg-slate-800/50">
+                        <td class="p-3 font-bold text-slate-300">Random Forest</td>
+                        <td class="p-3">80.15%</td>
+                        <td class="p-3">77.46%</td>
+                        <td class="p-3">85.05%</td>
+                        <td class="p-3 font-mono text-slate-400">0.8108</td>
                     </tr>
-                    <tr class="opacity-70">
-                        <td class="font-bold">Decision Tree</td>
-                        <td>73.20%</td>
-                        <td>88.14%</td>
-                        <td>53.61%</td>
-                        <td>0.6667</td>
+                    <tr class="opacity-60 hover:opacity-100 transition-opacity">
+                        <td class="p-3 font-bold text-slate-400">Decision Tree</td>
+                        <td class="p-3">73.20%</td>
+                        <td class="p-3">88.14%</td>
+                        <td class="p-3 text-red-400">53.61%</td>
+                        <td class="p-3 font-mono text-slate-500">0.6667</td>
                     </tr>
                 </tbody>
             </table>
         </div>
-        <div class="mt-8 p-4 bg-slate-800/80 rounded-lg flex items-center gap-6">
-            <i class="fa-solid fa-lightbulb text-yellow-500 text-2xl"></i>
-            <p class="text-sm">Le <b>LinearSVC</b> surpasse les autres modèles par son équilibre parfait entre précision et rappel sur les vecteurs TF-IDF creux.</p>
+        
+        <div class="grid grid-cols-2 gap-6 bg-slate-800/50 p-6 rounded-xl border border-slate-700">
+            <div class="flex gap-4">
+                <div class="bg-yellow-500/10 h-10 w-10 rounded flex items-center justify-center shrink-0">
+                    <i class="fa-solid fa-crown text-yellow-500"></i>
+                </div>
+                <div>
+                    <h4 class="font-bold text-yellow-500 mb-1">Victoire du LinearSVC</h4>
+                    <p class="text-xs text-slate-300 leading-relaxed">
+                        Les données textuelles vectorisées (TF-IDF) créent des espaces de très haute dimension souvent 
+                        <span class="text-white font-bold">linéairement séparables</span>. Les SVM linéaires excellent dans ce contexte, 
+                        maximisant la marge entre positifs et négatifs là où les arbres peinent à trouver des seuils simples.
+                    </p>
+                </div>
+            </div>
+            
+            <div class="flex gap-4">
+                <div class="bg-red-500/10 h-10 w-10 rounded flex items-center justify-center shrink-0">
+                    <i class="fa-solid fa-triangle-exclamation text-red-500"></i>
+                </div>
+                <div>
+                    <h4 class="font-bold text-red-400 mb-1">Échec du Decision Tree</h4>
+                    <p class="text-xs text-slate-300 leading-relaxed">
+                        Avec un Recall de seulement <span class="text-red-400 font-bold">53%</span>, l'arbre unique souffre de sur-apprentissage (overfitting). 
+                        Il capture bien les "règles exactes" du set d'entraînement mais échoue à généraliser sur les subtilités du langage naturel (ironie, contexte).
+                    </p>
+                </div>
+            </div>
         </div>
     </div>
 
@@ -458,32 +541,43 @@
             <div class="card">
                 <h3 class="font-bold mb-6 text-center text-slate-400 uppercase tracking-widest text-sm">Matrice de Confusion</h3>
                 <div class="grid grid-cols-2 gap-2 text-center h-64">
-                    <div class="flex flex-col justify-center bg-green-500/20 border border-green-500/50 rounded">
+                    <div class="flex flex-col justify-center bg-green-500/20 border border-green-500/50 rounded hover:scale-105 transition-transform">
                         <span class="text-3xl font-bold">165</span>
                         <span class="text-[10px]">Vrais Négatifs (VN)</span>
+                        <i class="fa-solid fa-check text-green-500 mt-2"></i>
                     </div>
-                    <div class="flex flex-col justify-center bg-red-500/20 border border-red-500/50 rounded">
+                    <div class="flex flex-col justify-center bg-red-500/20 border border-red-500/50 rounded hover:scale-105 transition-transform opacity-70">
                         <span class="text-3xl font-bold">29</span>
                         <span class="text-[10px]">Faux Positifs (FP)</span>
+                        <span class="text-[9px] text-red-300">"Bruit"</span>
                     </div>
-                    <div class="flex flex-col justify-center bg-red-500/20 border border-red-500/50 rounded">
+                    <div class="flex flex-col justify-center bg-red-500/20 border border-red-500/50 rounded hover:scale-105 transition-transform opacity-70">
                         <span class="text-3xl font-bold">35</span>
                         <span class="text-[10px]">Faux Négatifs (FN)</span>
+                        <span class="text-[9px] text-red-300">"Opportunités"</span>
                     </div>
-                    <div class="flex flex-col justify-center bg-green-500/20 border border-green-500/50 rounded">
+                    <div class="flex flex-col justify-center bg-green-500/20 border border-green-500/50 rounded hover:scale-105 transition-transform">
                         <span class="text-3xl font-bold">159</span>
                         <span class="text-[10px]">Vrais Positifs (VP)</span>
+                        <i class="fa-solid fa-check text-green-500 mt-2"></i>
                     </div>
                 </div>
             </div>
             <div class="space-y-4">
                 <div class="card bg-slate-800/40">
-                    <h4 class="font-bold text-slate-400 mb-2">Taux d'erreur</h4>
-                    <div class="text-3xl font-bold text-red-400">16.49%</div>
+                    <h4 class="font-bold text-slate-400 mb-2">Pourquoi LinearSVC ?</h4>
+                    <p class="text-sm text-slate-300 mb-2">Les vecteurs TF-IDF sont de <b>haute dimension</b> (5000+ features) et <b>creux</b> (sparse).</p>
+                    <div class="bg-blue-500/10 p-2 rounded border-l-2 border-blue-500 text-xs">
+                        Les SVM Linéaires excellent à trouver des hyperplans séparateurs dans ces espaces complexes, là où les arbres peinent à créer des règles binaires efficaces sans profondeur excessive (overfitting).
+                    </div>
                 </div>
                 <div class="card bg-slate-800/40">
-                    <h4 class="font-bold text-slate-400 mb-2">Observation</h4>
-                    <p class="text-sm text-slate-300">Le modèle est légèrement plus "conservateur" sur la détection des positifs (35 faux négatifs), préférant la certitude avant de classer un commentaire comme favorable.</p>
+                    <h4 class="font-bold text-slate-400 mb-2">Analyse des Erreurs (16.5%)</h4>
+                    <ul class="text-xs space-y-2 text-slate-300">
+                        <li><b class="text-yellow-500">Sarcasme :</b> "Bravo pour l'arnaque" → Classé Positif (Mot "Bravo").</li>
+                        <li><b class="text-yellow-500">Négation Complexe :</b> "Pas mal du tout" → Parfois ambigu pour les n-grammes simples.</li>
+                        <li><b class="text-yellow-500">Contexte Manquant :</b> Références externes non capturées par le texte seul.</li>
+                    </ul>
                 </div>
             </div>
         </div>
@@ -539,24 +633,16 @@
     <div class="slide">
         <h2 class="text-4xl font-bold mb-8 border-l-4 border-sky-500 pl-4">Importance des Caractéristiques</h2>
         <div class="grid grid-cols-2 gap-8 h-full">
-            <div class="card">
-                <h3 class="text-sm font-bold text-slate-400 mb-4 uppercase">Top 10 Termes Discriminants (Négatifs)</h3>
-                <div class="space-y-2">
-                    <div class="flex items-center gap-2"><div class="h-4 bg-red-500/60 rounded w-[95%]"></div><span class="text-xs">nul</span></div>
-                    <div class="flex items-center gap-2"><div class="h-4 bg-red-500/60 rounded w-[85%]"></div><span class="text-xs">pas</span></div>
-                    <div class="flex items-center gap-2"><div class="h-4 bg-red-500/60 rounded w-[80%]"></div><span class="text-xs">pourquoi</span></div>
-                    <div class="flex items-center gap-2"><div class="h-4 bg-red-500/60 rounded w-[75%]"></div><span class="text-xs">rien</span></div>
-                    <div class="flex items-center gap-2"><div class="h-4 bg-red-500/60 rounded w-[70%]"></div><span class="text-xs">mauvais</span></div>
+            <div class="card flex flex-col p-4">
+                <h3 class="text-sm font-bold text-slate-400 mb-4 uppercase">Top 20 Termes TF-IDF (Négatifs)</h3>
+                <div class="flex-1 rounded overflow-hidden relative border border-slate-700 bg-white/5">
+                    <img src="../figs/top_terms_label_0.png" alt="Top termes négatifs" class="absolute inset-0 w-full h-full object-contain">
                 </div>
             </div>
-            <div class="card">
-                <h3 class="text-sm font-bold text-slate-400 mb-4 uppercase">Top 10 Termes Discriminants (Positifs)</h3>
-                <div class="space-y-2">
-                    <div class="flex items-center gap-2"><div class="h-4 bg-green-500/60 rounded w-[98%]"></div><span class="text-xs">merci</span></div>
-                    <div class="flex items-center gap-2"><div class="h-4 bg-green-500/60 rounded w-[90%]"></div><span class="text-xs">super</span></div>
-                    <div class="flex items-center gap-2"><div class="h-4 bg-green-500/60 rounded w-[82%]"></div><span class="text-xs">bravo</span></div>
-                    <div class="flex items-center gap-2"><div class="h-4 bg-green-500/60 rounded w-[78%]"></div><span class="text-xs">top</span></div>
-                    <div class="flex items-center gap-2"><div class="h-4 bg-green-500/60 rounded w-[72%]"></div><span class="text-xs">génial</span></div>
+            <div class="card flex flex-col p-4">
+                <h3 class="text-sm font-bold text-slate-400 mb-4 uppercase">Top 20 Termes TF-IDF (Positifs)</h3>
+                <div class="flex-1 rounded overflow-hidden relative border border-slate-700 bg-white/5">
+                    <img src="../figs/top_terms_label_1.png" alt="Top termes positifs" class="absolute inset-0 w-full h-full object-contain">
                 </div>
             </div>
         </div>
