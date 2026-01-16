@@ -175,37 +175,100 @@
     <!-- Slide 3: Données & Relabelling -->
     <div class="slide">
         <h2 class="text-4xl font-bold mb-8 border-l-4 border-green-500 pl-4">Préparation des Données</h2>
-        <div class="grid grid-cols-3 gap-6">
-            <div class="card flex flex-col items-center justify-center text-center">
-                <span class="text-4xl font-bold text-white mb-2">3 242</span>
-                <span class="text-slate-400 uppercase text-xs tracking-widest">Commentaires Bruts</span>
-            </div>
-            <div class="card flex flex-col items-center justify-center text-center">
-                <i class="fa-solid fa-robot text-3xl text-blue-400 mb-2"></i>
-                <span class="text-sm">Modèle RoBERTa</span>
-                <span class="text-xs text-slate-500 italic">CardiffNLP / Twitter-XLM</span>
-            </div>
-            <div class="card flex flex-col items-center justify-center text-center">
-                <span class="text-4xl font-bold text-green-400 mb-2">3 Classes</span>
-                <span class="text-slate-400 uppercase text-xs tracking-widest">Initialement</span>
-            </div>
-        </div>
-        <div class="mt-8 card bg-slate-800/50">
-            <h3 class="font-bold mb-4 text-blue-400"><i class="fa-solid fa-diagram-project mr-2"></i>Processus de Labellisation Automatique</h3>
-            <div class="flex justify-between items-center px-10">
-                <div class="text-center">
-                    <div class="text-2xl font-bold">1 767</div>
-                    <div class="text-green-500 text-sm font-semibold">Positifs</div>
+        
+        <div class="grid grid-cols-2 gap-12 h-full flex-1">
+            <!-- Left: The Problem & Source -->
+            <div class="space-y-8 flex flex-col justify-center">
+                <div class="bg-slate-800/50 p-6 rounded-xl border-l-4 border-red-500 shadow-lg">
+                    <h3 class="text-xl font-bold text-white mb-3 flex items-center">
+                        <i class="fa-brands fa-youtube text-red-500 mr-3 text-2xl"></i>
+                        Source & Défi
+                    </h3>
+                    <p class="text-slate-300 text-sm leading-relaxed mb-4">
+                        Extraction de <b>3 242 commentaires</b> bruts via l'API YouTube Data sur des vidéos produits.
+                    </p>
+                    <div class="bg-red-500/10 p-3 rounded border border-red-500/20">
+                        <p class="text-xs text-red-200">
+                            <i class="fa-solid fa-triangle-exclamation mr-1"></i>
+                            <b>Problème :</b> Données "Sauvages" non labellisées. Impossible d'entraîner un classifieur supervisé sans "Vérité Terrain".
+                        </p>
+                    </div>
                 </div>
-                <i class="fa-solid fa-arrow-right text-slate-600"></i>
-                <div class="text-center">
-                    <div class="text-2xl font-bold">969</div>
-                    <div class="text-red-500 text-sm font-semibold">Négatifs</div>
+
+                <div class="bg-slate-800/50 p-6 rounded-xl border-l-4 border-blue-500 shadow-lg">
+                    <h3 class="text-xl font-bold text-white mb-3 flex items-center">
+                        <i class="fa-solid fa-robot text-blue-500 mr-3 text-2xl"></i>
+                        Solution : AI-Labelling
+                    </h3>
+                    <p class="text-slate-300 text-sm leading-relaxed mb-4">
+                        Génération automatique des labels (Positif/Négatif/Neutre) via un modèle <b>Transformer</b> pré-entraîné sur 198M de tweets, capable de comprendre l'argot et les emojis.
+                    </p>
+                    <div class="flex items-center gap-2 bg-blue-900/30 p-2 rounded text-xs font-mono text-blue-300 border border-blue-500/30">
+                        <i class="fa-solid fa-code"></i> model = "cardiffnlp/twitter-xlm-roberta-base"
+                    </div>
                 </div>
-                <i class="fa-solid fa-arrow-right text-slate-600"></i>
-                <div class="text-center">
-                    <div class="text-2xl font-bold">506</div>
-                    <div class="text-slate-500 text-sm font-semibold">Neutres</div>
+            </div>
+
+            <!-- Right: The Stats / Flow -->
+            <div class="flex flex-col justify-center">
+                <div class="card p-6 border border-green-500/20 bg-gradient-to-br from-green-500/5 to-transparent relative">
+                    <div class="absolute top-0 right-0 p-4 opacity-5">
+                        <i class="fa-solid fa-database text-9xl"></i>
+                    </div>
+
+                    <h3 class="text-center font-bold text-green-400 mb-8 uppercase text-sm tracking-widest">Pipeline de Labellisation</h3>
+                    
+                    <div class="flex flex-col gap-2 relative z-10">
+                        <!-- Step 1 -->
+                        <div class="flex items-center justify-between p-4 bg-slate-900/90 rounded border border-slate-700">
+                            <span class="text-sm font-bold text-slate-300">Input Brut</span>
+                            <span class="font-mono text-white font-bold">3 242 Items</span>
+                        </div>
+                        
+                        <!-- Arrow Down -->
+                        <div class="flex justify-center -my-3 z-20">
+                            <div class="bg-slate-800 rounded-full p-1 border border-slate-700">
+                                <i class="fa-solid fa-arrow-down text-slate-500 text-xs"></i>
+                            </div>
+                        </div>
+
+                        <!-- Step 2 -->
+                        <div class="flex items-center justify-between p-4 bg-blue-900/20 rounded border border-blue-500/30 shadow-[0_0_15px_rgba(59,130,246,0.1)]">
+                            <div class="flex items-center gap-3">
+                                <i class="fa-solid fa-gears text-blue-400 animate-spin-slow"></i>
+                                <div>
+                                    <span class="text-sm font-bold text-blue-100 block">RoBERTa Inference</span>
+                                    <span class="text-[10px] text-blue-400">Analyse de sentiment multilingue</span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Arrow Down -->
+                         <div class="flex justify-center -my-3 z-20">
+                            <div class="bg-slate-800 rounded-full p-1 border border-slate-700">
+                                <i class="fa-solid fa-arrow-down text-slate-500 text-xs"></i>
+                            </div>
+                        </div>
+
+                        <!-- Step 3: Distribution Header -->
+                         <div class="bg-slate-900/90 rounded border border-slate-700 p-4 mt-1">
+                            <div class="flex justify-between items-center mb-3">
+                                <span class="text-xs font-bold uppercase text-slate-500">Distribution Générée</span>
+                                <span class="text-xs font-bold text-white bg-slate-700 px-2 py-1 rounded">Total: 3 242</span>
+                            </div>
+                            <!-- Bars -->
+                            <div class="w-full h-8 flex rounded-md overflow-hidden text-[10px] font-bold text-white leading-8 text-center shadow-inner">
+                                <div class="bg-green-600 hover:bg-green-500 transition-colors cursor-help" style="width: 55%" title="Positifs">54.5%</div>
+                                <div class="bg-red-600 hover:bg-red-500 transition-colors cursor-help" style="width: 30%" title="Négatifs">29.9%</div>
+                                <div class="bg-slate-600 hover:bg-slate-500 transition-colors cursor-help" style="width: 15%" title="Neutres">15.6%</div>
+                            </div>
+                            <div class="flex justify-between text-[10px] text-slate-400 px-1 mt-2 font-mono">
+                                <span class="text-green-500">● 1767 Pos</span>
+                                <span class="text-red-500">● 969 Neg</span>
+                                <span class="text-slate-500">● 506 Neu</span>
+                            </div>
+                         </div>
+                    </div>
                 </div>
             </div>
         </div>
@@ -249,7 +312,7 @@
                         </div>
                         <div>
                             <h4 class="font-bold text-sm text-blue-400">Récupération des Neutres</h4>
-                            <p class="text-xs text-slate-400 mt-1">Conversion d'avis notés 3/5 contenant des mots clés négatifs forts pour enrichir la classe minoritaire.</p>
+                            <p class="text-xs text-slate-400 mt-1">Conversion d'avis neutres pour enrichir la classe minoritaire.</p>
                         </div>
                     </div>
                 </div>
