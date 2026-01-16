@@ -26,10 +26,10 @@ DATA_DIR = PROJECT_ROOT / "data" / "processed"
 REPORTS_DIR = PROJECT_ROOT / "reports"
 FIGS_DIR = PROJECT_ROOT / "figs"
 
-# Fichiers attendus
-DATASET_PATH = DATA_DIR / "comments_labeled_binary.csv"
-RESULTS_PATH = REPORTS_DIR / "tp_min_results.csv"
-EXAMPLES_TREE_PATH = REPORTS_DIR / "tp_test_predictions_tree.csv"
+# Fichiers attendus - Dataset relabelisé équilibré
+DATASET_PATH = DATA_DIR / "comments_labeled_binary.csv"  # Dataset relabelisé 1938 commentaires (969/969)
+RESULTS_PATH = REPORTS_DIR / "results_relabel.csv"  # Résultats avec dataset relabelisé
+EXAMPLES_TREE_PATH = REPORTS_DIR / "predictions_relabel.csv"  # Prédictions avec dataset relabelisé
 
 # Images attendues
 EXPECTED_IMAGES = {
@@ -208,6 +208,9 @@ def page_overview():
         pct_1 = (label_counts.get(1, 0) / total_comments * 100) if total_comments > 0 else 0
         st.metric("Classe 1 (positif)", f"{label_counts.get(1, 0)} ({pct_1:.1f}%)")
     
+    # Information sur le relabeling
+    st.info("ℹ️ Dataset relabelisé et équilibré avec HuggingFace (cardiffnlp/twitter-xlm-roberta-base-sentiment)")
+    
     st.divider()
     
     # Afficher les 5 premières lignes
@@ -273,9 +276,9 @@ def page_model_results():
     # Notes d'interprétation
     st.subheader("📝 Notes d'interprétation")
     st.info(
-        "Les modèles ont été entraînés et évalués sur un ensemble de test. "
+        "Les modèles ont été entraînés et évalués sur un ensemble de test avec le dataset relabelisé équilibré (1938 commentaires, 50/50). "
         "L'accuracy indique le pourcentage de prédictions correctes. "
-        "Comparer les modèles pour identifier le plus performant."
+        "Les modèles LinearSVC et LogisticRegression atteignent ~83% d'accuracy."
     )
 
 # ============================================================================
@@ -284,7 +287,7 @@ def page_model_results():
 
 def page_tree_examples():
     """Affiche les prédictions du modèle Arbre de Décision avec matrice de confusion."""
-    st.title("🌳 Exemples Arbre de Décision (test)")
+    st.title("🌳 Prédictions des modèles (test)")
     
     df = load_examples_tree()
     
@@ -292,8 +295,8 @@ def page_tree_examples():
         st.warning(f"⚠️ Impossible de charger les exemples. Fichier attendu : {EXAMPLES_TREE_PATH}")
         return
     
-    # Vérifier les colonnes attendues
-    expected_cols = ["commentaire", "y_true", "y_pred_tree"]
+    # Vérifier les colonnes attendues (y_pred au lieu de y_pred_tree)
+    expected_cols = ["commentaire", "y_true", "y_pred"]
     missing_cols = [col for col in expected_cols if col not in df.columns]
     if missing_cols:
         st.error(f"❌ Colonnes manquantes : {missing_cols}. Trouvées : {list(df.columns)}")
@@ -311,7 +314,7 @@ def page_tree_examples():
     )
     
     # Afficher l'échantillon
-    display_df = df[["commentaire", "y_true", "y_pred_tree"]].head(n_samples).copy()
+    display_df = df[["commentaire", "y_true", "y_pred"]].head(n_samples).copy()
     display_df.index = range(1, len(display_df) + 1)
     st.dataframe(display_df, use_container_width=True)
     
@@ -319,7 +322,7 @@ def page_tree_examples():
     
     # Matrice de confusion
     st.subheader("Matrice de confusion (2×2)")
-    cm = confusion_table(df["y_true"], df["y_pred_tree"])
+    cm = confusion_table(df["y_true"], df["y_pred"])
     st.dataframe(cm, use_container_width=True)
     
     st.divider()
@@ -329,7 +332,7 @@ def page_tree_examples():
     st.download_button(
         label="📥 Télécharger l'échantillon en CSV",
         data=csv_data,
-        file_name="tree_predictions_sample.csv",
+        file_name="model_predictions_sample.csv",
         mime="text/csv"
     )
 
@@ -491,7 +494,7 @@ def main():
                 "Accueil",
                 "Vue d'ensemble",
                 "Résultats modèles",
-                "Arbre de décision",
+                "Prédictions",
                 "Figures",
                 "Exploration texte"
             ],
@@ -503,7 +506,7 @@ def main():
         **À propos**
         
         Application Streamlit pour l'analyse de sentiment YouTube.
-        Centralize les modèles, prédictions et visualisations.
+        Dataset relabelisé avec HuggingFace (1938 commentaires, 50/50).
         """)
     
     # Affichage de la page sélectionnée
@@ -513,7 +516,7 @@ def main():
         page_overview()
     elif page == "Résultats modèles":
         page_model_results()
-    elif page == "Arbre de décision":
+    elif page == "Prédictions":
         page_tree_examples()
     elif page == "Figures":
         page_figures()

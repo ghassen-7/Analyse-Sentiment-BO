@@ -12,3 +12,5 @@ projet2.py -> archive\\2026-01-08\
 rt-polarity-neg.txt -> archive\\2026-01-08\
 rt-polarity-pos.txt -> archive\\2026-01-08\
 VKancdDIpOU.info.json -> archive\\2026-01-08\
+
+comments_labeled_binary_old.csv	 Original dataset (moved 2026-01-16, replaced by relabeled version)

@@ -60,7 +60,8 @@ df_bal = df.iloc[sel_idx].copy()
 df_bal["label"] = labels_bin
 
 # Sauvegarde
-out_path = "comments_labeled_binary_relabel.csv"
+out_path = "data/processed/comments_labeled_binary.csv"
+os.makedirs("data/processed", exist_ok=True)
 df_bal[["commentaire","label"]].to_csv(out_path, sep=";", index=False, encoding="utf-8-sig")
 print(f"\n✅ {len(df_bal)} commentaires équilibrés (binaire) → {out_path}")
 print(f"   → {n_target} positifs (1), {n_target} négatifs (0)")

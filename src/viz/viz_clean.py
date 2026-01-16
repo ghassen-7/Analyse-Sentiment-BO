@@ -49,24 +49,32 @@ FRENCH_STOPWORDS = {
 # Répartition des labels (brut)
 plt.figure(figsize=(6,4))
 sns.countplot(x='label', data=df)
+plt.title('Répartition des labels (dataset relabelisé équilibré)')
+plt.xlabel('Label (0=négatif, 1=positif)')
+plt.ylabel('Nombre de commentaires')
+plt.savefig(os.path.join(OUT_DIR, 'label_counts.png'), bbox_inches='tight')
+plt.close()
+print(f"✓ label_counts.png sauvegardé")
+
+# Pas besoin d'équilibrage artificiel puisque le dataset est déjà équilibré
+# On crée quand même les autres noms de fichiers pour compatibilité
+plt.figure(figsize=(6,4))
+sns.countplot(x='label', data=df)
 plt.title('Répartition des labels (brut)')
+plt.xlabel('Label (0=négatif, 1=positif)')
+plt.ylabel('Nombre de commentaires')
 plt.savefig(os.path.join(OUT_DIR, 'label_counts_raw.png'), bbox_inches='tight')
 plt.close()
-
-# Répartition des labels (équilibré pour visualisation uniquement)
-counts = df['label'].value_counts()
-min_class = counts.idxmin()
-max_count = counts.max()
-minor_df = df[df['label'] == min_class]
-major_df = df[df['label'] != min_class]
-minor_upsampled = resample(minor_df, replace=True, n_samples=max_count, random_state=42)
-df_balanced_vis = pd.concat([major_df, minor_upsampled]).sample(frac=1, random_state=42)
+print(f"✓ label_counts_raw.png sauvegardé")
 
 plt.figure(figsize=(6,4))
-sns.countplot(x='label', data=df_balanced_vis)
-plt.title('Répartition des labels (équilibré - visualisation)')
+sns.countplot(x='label', data=df)
+plt.title('Répartition des labels (équilibré)')
+plt.xlabel('Label (0=négatif, 1=positif)')
+plt.ylabel('Nombre de commentaires')
 plt.savefig(os.path.join(OUT_DIR, 'label_counts_balanced.png'), bbox_inches='tight')
 plt.close()
+print(f"✓ label_counts_balanced.png sauvegardé")
 
 # TF-IDF global (1-2 grammes) avec stopwords
 vectorizer = TfidfVectorizer(lowercase=True, ngram_range=(1,2), min_df=2, max_df=0.9, stop_words=list(FRENCH_STOPWORDS))
@@ -86,6 +94,7 @@ plt.xlabel('Somme TF-IDF')
 plt.tight_layout()
 plt.savefig(os.path.join(OUT_DIR, 'top_terms.png'))
 plt.close()
+print(f"✓ top_terms.png sauvegardé")
 
 # Wordclouds par label
 for label in sorted(df['label'].unique()):
@@ -96,20 +105,24 @@ for label in sorted(df['label'].unique()):
     plt.figure(figsize=(10,5))
     plt.imshow(wc, interpolation='bilinear')
     plt.axis('off')
-    plt.title(f'Wordcloud label={label}')
+    label_name = 'négatif' if label == 0 else 'positif'
+    plt.title(f'Wordcloud - Commentaires {label_name} (label={label})')
     outpath = os.path.join(OUT_DIR, f'wordcloud_label_{label}.png')
     plt.savefig(outpath, bbox_inches='tight')
     plt.close()
+    print(f"✓ wordcloud_label_{label}.png sauvegardé")
 
 # Histogramme des longueurs des commentaires
 lengths = df['commentaire'].str.split().apply(len)
 plt.figure(figsize=(8,5))
 sns.histplot(lengths, bins=40, kde=True)
 plt.xlabel('Longueur (nombre de tokens)')
+plt.ylabel('Fréquence')
 plt.title('Distribution des longueurs des commentaires')
 plt.tight_layout()
 plt.savefig(os.path.join(OUT_DIR, 'length_distribution.png'))
 plt.close()
+print(f"✓ length_distribution.png sauvegardé")
 
 # Top n-grammes par label (0 vs 1)
 # Vectorisation séparée par classe pour extraire les termes distinctifs
@@ -123,12 +136,15 @@ for lab in sorted(df['label'].unique()):
     top_feats = feats_lab[order][:20]
     top_vals = scores_lab[order][:20]
 
+    label_name = 'négatifs' if lab == 0 else 'positifs'
     plt.figure(figsize=(8,6))
     sns.barplot(x=top_vals, y=top_feats)
-    plt.title(f'Top 20 termes TF-IDF (label={lab})')
+    plt.title(f'Top 20 termes TF-IDF - Commentaires {label_name} (label={lab})')
     plt.xlabel('Somme TF-IDF')
     plt.tight_layout()
     plt.savefig(os.path.join(OUT_DIR, f'top_terms_label_{lab}.png'))
     plt.close()
+    print(f"✓ top_terms_label_{lab}.png sauvegardé")
 
-print(f"[OK] Figures enregistrées dans: {os.path.abspath(OUT_DIR)}")
+print(f"\n[OK] Toutes les figures enregistrées dans: {os.path.abspath(OUT_DIR)}")
+print(f"[INFO] Total de commentaires: {len(df)}, Répartition: {df['label'].value_counts().to_dict()}")
