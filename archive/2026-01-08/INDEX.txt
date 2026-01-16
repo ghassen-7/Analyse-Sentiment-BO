@@ -1,0 +1,14 @@
+﻿comments_labeled_binary_backup.csv -> archive\\2026-01-08\
+comments_labeled_binary_hf.csv -> archive\\2026-01-08\
+comments_only.csv -> archive\\2026-01-08\
+comments_labeled.csv -> archive\\2026-01-08\
+tp_min_models_backup.py -> archive\\2026-01-08\
+tp1.py -> archive\\2026-01-08\
+comv.py -> archive\\2026-01-08\
+csvnet.py -> archive\\2026-01-08\
+label.py -> archive\\2026-01-08\
+projet.py -> archive\\2026-01-08\
+projet2.py -> archive\\2026-01-08\
+rt-polarity-neg.txt -> archive\\2026-01-08\
+rt-polarity-pos.txt -> archive\\2026-01-08\
+VKancdDIpOU.info.json -> archive\\2026-01-08\

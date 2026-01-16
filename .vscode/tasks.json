@@ -1,0 +1,17 @@
+{
+	"version": "2.0.0",
+	"tasks": [
+		{
+			"label": "Move files and create archive index",
+			"type": "shell",
+			"command": "powershell",
+			"args": [
+				"-NoProfile",
+				"-Command",
+				"$p = \"c:\\Users\\bg005589\\OneDrive - Université Côte d'Azur\\Bureau\\machinlearning\\nlp2\";\nSet-Location $p;\n# Moves\nMove-Item -Path .\\comments_labeled_binary.csv -Destination .\\data\\processed\\ -Force -ErrorAction SilentlyContinue;\nMove-Item -Path .\\tp_min_models.py -Destination .\\src\\train\\ -Force -ErrorAction SilentlyContinue;\n# viz_clean.py may not exist at root; only move if present\nif (Test-Path .\\viz_clean.py) { Move-Item -Path .\\viz_clean.py -Destination .\\src\\viz\\ -Force };\nMove-Item -Path .\\tp_min_results.csv -Destination .\\reports\\ -Force -ErrorAction SilentlyContinue;\nMove-Item -Path .\\tp_test_predictions_tree.csv -Destination .\\reports\\ -Force -ErrorAction SilentlyContinue;\n\n# Archive list\n$toArchive = @(\n 'comments_labeled_binary_backup.csv',\n 'comments_labeled_binary_hf.csv',\n 'comments_only.csv',\n 'comments_labeled.csv',\n 'tp_min_models_backup.py',\n 'tp1.py',\n 'comv.py',\n 'csvnet.py',\n 'label.py',\n 'projet.py',\n 'projet2.py',\n 'rt-polarity-neg.txt',\n 'rt-polarity-pos.txt',\n 'VKancdDIpOU.info.json'\n)\n$archiveDir = Join-Path $p 'archive\\2026-01-08'\n$index = @()\nforeach ($f in $toArchive) {\n    if (Test-Path $f) {\n        Move-Item -Path $f -Destination $archiveDir -Force;\n        $index += (\"$f\\t Moved to archive\\\\2026-01-08\\\")\n    } else {\n        $index += (\"$f\\t NOT FOUND\")\n    }\n}\n# Write INDEX\n$index | Out-File -FilePath (Join-Path $archiveDir 'INDEX.txt') -Encoding utf8\nWrite-Host 'Dry-run completed: files moved (if present), archive INDEX created.';"
+			],
+			"isBackground": false,
+			"problemMatcher": []
+		}
+	]
+}
